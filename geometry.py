@@ -1,11 +1,7 @@
-# geometry.py - 2D geometry area formulas in pure Python
-# No external libraries or standard modules used.
-
 PI = 3.141592653589793
 
 
 def _to_pos_float(val, label):
-    """Small helper to ensure inputs are positive numbers."""
     try:
         f = float(val)
     except (TypeError, ValueError):
@@ -16,7 +12,6 @@ def _to_pos_float(val, label):
 
 
 class Circle:
-    """Circle area: pi * r^2"""
     def __init__(self, r):
         self.r = _to_pos_float(r, "radius")
 
@@ -28,7 +23,6 @@ class Circle:
 
 
 class Rectangle:
-    """Rectangle area: width * height"""
     def __init__(self, width, height):
         self.w = _to_pos_float(width, "width")
         self.h = _to_pos_float(height, "height")
@@ -41,7 +35,6 @@ class Rectangle:
 
 
 class Square(Rectangle):
-    """Square area: side^2"""
     def __init__(self, side):
         s = _to_pos_float(side, "side")
         super().__init__(s, s)
@@ -52,7 +45,6 @@ class Square(Rectangle):
 
 
 class Triangle:
-    """Triangle area using base and perpendicular height: 0.5 * b * h"""
     def __init__(self, base, height):
         self.base = _to_pos_float(base, "base")
         self.height = _to_pos_float(height, "height")
@@ -65,17 +57,11 @@ class Triangle:
 
 
 class TriangleHeron:
-    """
-    Triangle area from 3 side lengths using Heron's formula:
-    s = (a + b + c) / 2
-    area = sqrt(s * (s - a) * (s - b) * (s - c))
-    """
     def __init__(self, a, b, c):
         self.a = _to_pos_float(a, "side a")
         self.b = _to_pos_float(b, "side b")
         self.c = _to_pos_float(c, "side c")
 
-        # Triangle inequality theorem: sum of any 2 sides must exceed the 3rd
         if (self.a + self.b <= self.c) or (self.a + self.c <= self.b) or (self.b + self.c <= self.a):
             raise ValueError(f"Sides {self.a}, {self.b}, {self.c} cannot form a valid triangle")
 
@@ -85,7 +71,6 @@ class TriangleHeron:
     def area(self):
         s = self.semi_perimeter()
         radicand = s * (s - self.a) * (s - self.b) * (s - self.c)
-        # Using base Python ** 0.5 instead of importing math.sqrt
         return radicand ** 0.5
 
     def __str__(self):
@@ -93,7 +78,6 @@ class TriangleHeron:
 
 
 class Trapezoid:
-    """Trapezoid area: ((a + b) / 2) * h"""
     def __init__(self, top_base, bottom_base, height):
         self.a = _to_pos_float(top_base, "top base")
         self.b = _to_pos_float(bottom_base, "bottom base")
@@ -107,7 +91,6 @@ class Trapezoid:
 
 
 class Parallelogram:
-    """Parallelogram area: base * height"""
     def __init__(self, base, height):
         self.base = _to_pos_float(base, "base")
         self.height = _to_pos_float(height, "height")
@@ -120,7 +103,6 @@ class Parallelogram:
 
 
 class Rhombus:
-    """Rhombus area from diagonals: (d1 * d2) / 2"""
     def __init__(self, d1, d2):
         self.d1 = _to_pos_float(d1, "d1")
         self.d2 = _to_pos_float(d2, "d2")
@@ -133,7 +115,6 @@ class Rhombus:
 
 
 class Ellipse:
-    """Ellipse area: pi * a * b"""
     def __init__(self, semi_major, semi_minor):
         self.a = _to_pos_float(semi_major, "semi-major")
         self.b = _to_pos_float(semi_minor, "semi-minor")
@@ -146,7 +127,6 @@ class Ellipse:
 
 
 class Sector:
-    """Circular sector area: (angle / 360) * pi * r^2"""
     def __init__(self, radius, angle_deg):
         self.r = _to_pos_float(radius, "radius")
         try:
